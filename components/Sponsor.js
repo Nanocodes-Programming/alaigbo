@@ -2,6 +2,10 @@ import React from 'react';
 import SponsorCard from './SponsorCard';
 const images = [
   {
+    src: '/nanocodes.png',
+    text: 'Nanocodes Programming',
+  },
+  {
     src: '/olu.jpg',
     text: 'Voice of The East',
   },

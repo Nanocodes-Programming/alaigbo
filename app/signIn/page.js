@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
 import { API_URL } from '@/constants/api';
 import { AuthContext } from '@/lib/AuthContext';
+import { getNextMonth } from '@/utils/expDate';
 
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
@@ -70,6 +71,7 @@ const SignInPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const refreshExp = getNextMonth()
 
     try {
       setIsLoading(true);
@@ -77,7 +79,7 @@ const SignInPage = () => {
         email,
         password
       });
-      console.log(data)
+      // console.log(data)
       logIn();
       localStorage.setItem('email', email);
       localStorage.setItem('access_token', data?.data?.access)
@@ -113,7 +115,7 @@ const SignInPage = () => {
           variant: 'destructive',
         });
       }
-      console.log(error);
+      // console.log(error);
     }
   };
 
