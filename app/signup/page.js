@@ -91,7 +91,7 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    const refreshExp = getNextMonth()
     const checkPassword = validatePassword(password);
 
     if (password === confirmPassword) {
@@ -106,10 +106,10 @@ const Login = () => {
           console.log(data)
           logIn();
           localStorage.setItem('email', email);
-          localStorage.setItem('access_token', data?.data?.access)
-          localStorage.setItem('refresh_token', data?.data?.refresh)
-          localStorage.setItem('user', data?.user)
-          localStorage.setItem('access_exp', data)
+          localStorage.setItem('access_token', data?.data?.tokens?.access)
+          localStorage.setItem('refresh_token', data?.data?.tokens?.refresh)
+          localStorage.setItem('user', data?.data?.user)
+          localStorage.setItem('access_exp', refreshExp)
           localStorage.setItem('refresh_exp', refreshExp)
 
           setIsLoading(false);
