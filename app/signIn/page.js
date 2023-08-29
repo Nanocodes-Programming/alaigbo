@@ -22,6 +22,11 @@ const SignInPage = () => {
   const router = useRouter();
   const { toast } = useToast();
   const { logIn } = useContext(AuthContext);
+  const token = localStorage.getItem('access_token');
+
+  const config = {
+    headers: { Authorization: `Bearer ${token}` },
+  };
 
   // const { mutate } = useMutation({
   //   mutationFn: async () => {
@@ -84,11 +89,15 @@ const SignInPage = () => {
       localStorage.setItem('email', email);
       localStorage.setItem('access_token', data?.data?.access)
       localStorage.setItem('refresh_token', data?.data?.refresh)
-      // localStorage.setItem('user', data?.user)
       localStorage.setItem('access_exp', refreshExp)
       localStorage.setItem('refresh_exp', refreshExp)
 
       setIsLoading(false);
+      if(data?.status === 200) {
+        const user = await axios.get(`${API_URL}/api/v1/user/`, config);
+        localStorage.setItem('user', user?.data[0])
+      }
+
       router.push('/');
       return toast({
         title: '',
