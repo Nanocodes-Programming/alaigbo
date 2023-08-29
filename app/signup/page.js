@@ -103,7 +103,7 @@ const Login = () => {
             password,
             phone: number
           });
-          console.log(data)
+          // console.log(data)
           logIn();
           localStorage.setItem('email', email);
           localStorage.setItem('access_token', data?.data?.tokens?.access)
@@ -139,7 +139,7 @@ const Login = () => {
               variant: 'destructive',
             });
           }
-          console.log(error);
+          // console.log(error);
         }
       } else {
         setIsLoading(false);

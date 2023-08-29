@@ -22,51 +22,51 @@ const SignInPage = () => {
   const { toast } = useToast();
   const { logIn } = useContext(AuthContext);
 
-  const { mutate } = useMutation({
-    mutationFn: async () => {
-      try {
-        if(email === '') {
-          console.log("email")
-          return toast({
-            title: `Email field cannot be empty`,
-            description: 'An Error occurred',
-            variant: 'destructive',
-          });
-        }
+  // const { mutate } = useMutation({
+  //   mutationFn: async () => {
+  //     try {
+  //       if(email === '') {
+  //         console.log("email")
+  //         return toast({
+  //           title: `Email field cannot be empty`,
+  //           description: 'An Error occurred',
+  //           variant: 'destructive',
+  //         });
+  //       }
         
-        if(password === '') {
-          throw new Error('error');
-        }
-        const { data } = await axios.post('https://alaigbo-api-f1eb5c729ad7.herokuapp.com/api/v1/login/', {
-          email,
-          password,
-        });
-        console.log(data)
-        return data;
+  //       if(password === '') {
+  //         throw new Error('error');
+  //       }
+  //       const { data } = await axios.post('https://alaigbo-api-f1eb5c729ad7.herokuapp.com/api/v1/login/', {
+  //         email,
+  //         password,
+  //       });
+  //       console.log(data)
+  //       return data;
       
-      } catch (err) {
-        console.log("err",err)
-        throw new Error(err.response.data.message);
-      }
-    },
-    onError: (err) => {
-      return toast({
-        title: `${err.message}`,
-        description: 'An Error occurred',
-        variant: 'destructive',
-      });
-    },
-    onSuccess: () => {
-      startTransition(() => {
-        logIn();
-        router.push('/');
-      });
-      return toast({
-        title: 'Login successful',
-        description: 'You have been logged in',
-      });
-    },
-  });
+  //     } catch (err) {
+  //       console.log("err",err)
+  //       throw new Error(err.response.data.message);
+  //     }
+  //   },
+  //   onError: (err) => {
+  //     return toast({
+  //       title: `${err.message}`,
+  //       description: 'An Error occurred',
+  //       variant: 'destructive',
+  //     });
+  //   },
+  //   onSuccess: () => {
+  //     startTransition(() => {
+  //       logIn();
+  //       router.push('/');
+  //     });
+  //     return toast({
+  //       title: 'Login successful',
+  //       description: 'You have been logged in',
+  //     });
+  //   },
+  // });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -77,13 +77,13 @@ const SignInPage = () => {
         email,
         password
       });
-
+      console.log(data)
       logIn();
       localStorage.setItem('email', email);
       localStorage.setItem('access_token', data?.data?.access)
       localStorage.setItem('refresh_token', data?.data?.refresh)
-      localStorage.setItem('user', data?.user)
-      localStorage.setItem('access_exp', data)
+      // localStorage.setItem('user', data?.user)
+      localStorage.setItem('access_exp', refreshExp)
       localStorage.setItem('refresh_exp', refreshExp)
 
       setIsLoading(false);
