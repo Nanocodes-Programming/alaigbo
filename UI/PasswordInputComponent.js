@@ -1,6 +1,5 @@
 import { PasswordInput } from '@mantine/core';
 
-
 const PasswordInputComponent = ({ value, setValue, label, description, placeholder }) => {
   return (
     <PasswordInput 
