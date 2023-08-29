@@ -23,11 +23,11 @@ const useAuth = () => {
 
   // auto logout functionality
   useEffect(() => {
-    const token = localStorage.getItem('refresh_token');
-    const refreshExp = localStorage.getItem('refresh_exp');
+    const token = localStorage.getItem('access_token');
+    const accessExp = localStorage.getItem('access_exp');
 
     const currentDate = new Date().getTime();
-    const expiryDate = new Date(refreshExp).getTime();
+    const expiryDate = new Date(accessExp).getTime();
     const isExpired = currentDate < expiryDate;
 
     if (token) {
