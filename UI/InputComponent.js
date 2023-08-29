@@ -2,7 +2,6 @@ import { TextInput } from '@mantine/core';
 import React from 'react';
 
 const InputComponent = ({ value, setValue, label, type, required }) => {
-  console.log(required)
   return (
     <TextInput
       value={value}
