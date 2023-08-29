@@ -41,7 +41,7 @@ const Sponsor = () => {
             technology hub of Africa by 2050.
           </p>
         </div>
-        <div className="grid  md:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-4 mt-[100px]">
+        <div className="flex min-w-[210px] overflow-x-auto no-scrollbar gap-12 lg:gap-16 mt-[100px]">
           {images.map(({ src, text, url }) => (
             <SponsorCard key={src} src={src} text={text} url={url} />
           ))}
