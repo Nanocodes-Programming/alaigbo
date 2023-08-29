@@ -21,13 +21,30 @@ const SignInPage = () => {
 
   const { isLoading, mutate } = useMutation({
     mutationFn: async () => {
-      const { data } = await axios.post('http://localhost:3000/api/auth', {
-        username,
-        email,
-        password,
-      });
-
-      return data;
+      try {
+        if(email === '') {
+          console.log("email")
+          return toast({
+            title: `Email field cannot be empty`,
+            description: 'An Error occurred',
+            variant: 'destructive',
+          });
+        }
+        
+        if(password === '') {
+          throw new Error('error');
+        }
+        const { data } = await axios.post('https://alaigbo-api-f1eb5c729ad7.herokuapp.com/api/v1/login/', {
+          email,
+          password,
+        });
+        console.log(data)
+        return data;
+      
+      } catch (err) {
+        console.log("err",err)
+        throw new Error(err.response.data.message);
+      }
     },
     onError: (err) => {
       return toast({
