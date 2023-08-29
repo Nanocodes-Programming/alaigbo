@@ -1,8 +1,11 @@
 'use client';
 import InputComponent from '@/UI/InputComponent';
+import PasswordInputComponent from '@/UI/PasswordInputComponent';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/use-toast';
+import { API_URL } from '@/constants/api';
 import { AuthContext } from '@/lib/AuthContext';
+import { getNextMonth } from '@/utils/expDate';
 
 import { FileInput, Group, Text, Textarea, Title } from '@mantine/core';
 import { DatePickerInput } from '@mantine/dates';
@@ -19,53 +22,141 @@ const Login = () => {
   const router = useRouter();
   const { logIn } = useContext(AuthContext);
   const [user, setUser] = useState();
-  const [firstName, setFirstName] = useState('');
-  const [middleName, setMiddleName] = useState('');
-  const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [number, setNumber] = useState('');
-  const [date, setDate] = useState(null);
-  const [state, setState] = useState('');
-  const [lga, setLga] = useState('');
-  const [town, setTown] = useState('');
-  const [family, setFamily] = useState('');
-  const [place, setPlace] = useState('');
-  const [village, setVillage] = useState('');
-  const [gender, setGender] = useState('');
-  const [interest, setInterest] = useState('');
-  const [bio, setBio] = useState('');
-  const [image, setImage] = useState(null);
-  const { isLoading, mutate } = useMutation({
-    mutationFn: async () => {
-      const { data } = await axios.post('http://localhost:3000/api/auth', {
-        username: firstName,
-        email,
-        password,
-      });
-      setUser(data);
-      console.log(data);
-      return data;
-    },
-    onError: (err) => {
-      return toast({
-        title: `${err.message}`,
-        description: 'An Error occurred',
+  const [isLoading, setIsLoading] = useState(false)
+
+  function validatePassword(password) {
+    const regex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()\-_=+{};:,<.>/?]).{8,}$/;
+    return regex.test(password);
+  }
+  
+  // const { mutate } = useMutation({
+  //   mutationFn: async () => {
+  //     const checkPassword = validatePassword(password);
+
+  //     if (password === confirmPassword) {
+  //       if (checkPassword) {
+  //         setIsLoading(true)
+  //         const { data } = await axios.post(`${API_URL}/api/v1/register/`, {
+  //           email,
+  //           password,
+  //           phone: number
+  //         });
+  //         setUser(data);
+  //         console.log(data);
+  //         return data;
+  //         return
+  //       } else {
+  //         setIsLoading(false)
+  //         setError('Please choose a strong password')
+  //       }
+  //     } else {
+  //       setIsLoading(false)
+  //       setError('Passwords must match')
+  //     }
+  //   },
+  //   onError: (err) => {
+  //     console.log(err)
+  //     setIsLoading(false)
+  //     return toast({
+  //       title: `${err.message}`,
+  //       description: 'An Error occurred',
+  //       variant: 'destructive',
+  //     });
+  //   },
+  //   onSuccess: () => {
+  //     startTransition(() => {
+  //       setIsLoading(false)
+  //       const refreshExp = getNextMonth()
+
+  //       logIn();
+  //       localStorage.setItem('access_token', data?.data?.access)
+  //       localStorage.setItem('refresh_token', data?.data?.refresh)
+  //       localStorage.setItem('user', data?.user)
+  //       localStorage.setItem('access_exp', data)
+  //       localStorage.setItem('refresh_exp', refreshExp)
+
+  //       router.push('/');
+  //     });
+  //     return toast({
+  //       title: 'Registration successful',
+  //       description: `You have been Registered`,
+  //     });
+  //   },
+  // });
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const checkPassword = validatePassword(password);
+
+    if (password === confirmPassword) {
+      if (checkPassword) {
+        try {
+          setIsLoading(true);
+          const { data } = await axios.post(`${API_URL}/api/v1/register/`, {
+            email,
+            password,
+            phone: number
+          });
+
+          localStorage.setItem('email', email);
+          localStorage.setItem('access_token', data?.data?.access)
+          localStorage.setItem('refresh_token', data?.data?.refresh)
+          localStorage.setItem('user', data?.user)
+          localStorage.setItem('access_exp', data)
+          localStorage.setItem('refresh_exp', refreshExp)
+
+          setIsLoading(false);
+          router.push('/');
+          toast({
+            title: 'Registration successful',
+            description: `You have been Registered`,
+          });
+        } catch (error) {
+          setIsLoading(false);
+          if (error?.response?.status === 400) {
+            toast({
+              title: ``,
+              description: 'A user with this email already exists',
+              variant: 'destructive',
+            });
+          } else if (error?.response?.status === 500) {
+            toast({
+              title: `Network error`,
+              description: 'Try again later',
+              variant: 'destructive',
+            });
+          } else {
+            toast({
+              title: ``,
+              description: 'Try again later',
+              variant: 'destructive',
+            });
+          }
+          // console.log(error);
+        }
+      } else {
+        setIsLoading(false);
+        toast({
+          title: ``,
+          description: 'Please choose a strong password',
+          variant: 'destructive',
+        });
+      }
+    } else {
+      setIsLoading(false);
+      toast({
+        title: ``,
+        description: 'Passwords must match',
         variant: 'destructive',
       });
-    },
-    onSuccess: () => {
-      startTransition(() => {
-        logIn();
-
-        router.push('/');
-      });
-      return toast({
-        title: 'Registration successful',
-        description: `You have been Registered ${user.username}`,
-      });
-    },
-  });
+    }
+  };
 
   return (
     <div className="min-h-screen pt-[120px] pb-[100px]">
@@ -73,144 +164,70 @@ const Login = () => {
         <Title order={1} mb={30} ta={'center'}>
           Member Registration
         </Title>
-        <div className="space-y-8">
-          <div className="grid md:grid-cols-3 grid-cols-1  gap-4 mb-8">
-            <InputComponent
-              value={firstName}
-              setValue={setFirstName}
-              label={'First name'}
-            />
-            <InputComponent
-              value={middleName}
-              setValue={setMiddleName}
-              label={'Middle name'}
-            />
-            <InputComponent
-              value={lastName}
-              setValue={setLastName}
-              label={'Last name'}
-            />
-          </div>
+        <form onSubmit={handleSubmit} className="space-y-8">
           <div className="grid md:grid-cols-2 grid-cols-1 gap-4 my-8">
             <InputComponent
               value={email}
               setValue={setEmail}
               label={'Email address'}
               type={'email'}
+              required={true}
             />
-            <InputComponent
-              value={password}
-              setValue={setPassword}
-              label={'Password'}
-              type={'password'}
-            />
-          </div>
-          <div className="grid md:grid-cols-2 grid-cols-1 gap-4 mb-8">
             <InputComponent
               value={number}
               setValue={setNumber}
               label={'Contact number'}
+              required={true}
             />
-            <DatePickerInput
-              label="Date of birth"
-              value={date}
-              onChange={setDate}
-              styles={{ input: { border: '1px solid #DE5000' } }}
-              allowDeselect
+            <PasswordInputComponent
+              value={password}
+              setValue={setPassword}
+              label={'Password'}
+              type={'password'}
+              required={true}
+              description={"Password must include at least one letter, number and special character"}
+              placeholder={'Password'}
             />
+            <PasswordInputComponent
+              value={confirmPassword}
+              setValue={setConfirmPassword}
+              label={'Confirm Password'}
+              type={'password'}
+              required={true}
+              placeholder={'Repeat your password'}
+              description={"Confirm password must be th same as password"}
+            />
+            {/* <InputComponent
+              value={password}
+              setValue={setPassword}
+              label={'Password'}
+              type={'password'}
+              required={true}
+            />
+            <InputComponent
+              value={confirmPassword}
+              setValue={setConfirmPassword}
+              label={'Confirm Password'}
+              type={'password'}
+              required={true}
+            /> */}
           </div>
-          <div className="grid md:grid-cols-3 grid-cols-1 gap-4">
-            <InputComponent
-              setValue={setState}
-              value={state}
-              label={'State Of Origin'}
-            />
-            <InputComponent setValue={setLga} value={lga} label={'LGA'} />
-            <InputComponent setValue={setTown} value={town} label={'Town'} />
-          </div>
-          <div className="grid md:grid-cols-3 grid-cols-1 gap-4">
-            <InputComponent
-              setValue={setPlace}
-              value={place}
-              label={'Place Of Birth'}
-            />
-            <InputComponent
-              setValue={setVillage}
-              value={village}
-              label={'Village'}
-            />
-            <InputComponent
-              setValue={setFamily}
-              value={family}
-              label={'Family Name'}
-            />
-          </div>
-          <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
-            <InputComponent
-              setValue={setGender}
-              value={gender}
-              label={'Gender'}
-            />
-            <InputComponent
-              setValue={setInterest}
-              value={interest}
-              label={'Interest'}
-            />
-          </div>
-          <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
-            <Textarea
-              label="Short Bio about yourself"
-              autosize
-              minRows={4}
-              value={bio}
-              onChange={(event) => setBio(event.currentTarget.value)}
-              styles={{ input: { border: '1px solid #DE5000' } }}
-            />
-            <Dropzone
-              onDrop={(files) => setImage(files[0])}
-              onReject={(files) => console.log('rejected files', files)}
-              maxSize={3 * 1024 ** 2}
-              accept={IMAGE_MIME_TYPE}
-            >
-              <Group
-                position="center"
-                spacing="xl"
-                style={{ pointerEvents: 'none' }}
-              >
-                <Dropzone.Accept>
-                  <IconUpload size="3.2rem" stroke={1.5} />
-                </Dropzone.Accept>
-                <Dropzone.Reject>
-                  <IconX size="3.2rem" stroke={1.5} />
-                </Dropzone.Reject>
-                <Dropzone.Idle>
-                  <IconPhoto size="3.2rem" stroke={1.5} />
-                </Dropzone.Idle>
-
-                <div>
-                  <Text size="xl" inline>
-                    Drag your image here or click to select files
-                  </Text>
-                  <Text size="sm" color="dimmed" inline mt={7}>
-                    Attach your profile image, it should not exceed 5mb
-                  </Text>
-                </div>
-              </Group>
-            </Dropzone>
+          <div className="grid md:grid-cols-2 grid-cols-1 gap-4 mb-8">
           </div>
           <div className="flex justify-center">
             <Button
               disabled={isLoading}
               className="bg-[#DE5000] hover:bg-[#a4460f] transition duration-300"
-              onClick={() => mutate()}
+              // onClick={() => mutate()}
+              type="submit"
             >
               {!isLoading && <LogIn className="mr-3" />}{' '}
               {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}{' '}
               Sign up
             </Button>
           </div>
-        </div>
-        <div className="flex items-center  mt-8">
+        </form>
+        <div className="flex items-center justify-center  mt-8">
           <p className="mr-2">Already have an account?</p>{' '}
           <Link
             href={'/signIn'}
