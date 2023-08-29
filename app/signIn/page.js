@@ -23,16 +23,10 @@ const SignInPage = () => {
   const { toast } = useToast();
   const { logIn } = useContext(AuthContext);
 
-  if (typeof window !== 'undefined') {
-    // Perform localStorage action
-    const token = localStorage.getItem('access_token');
-  }
-  
- 
-
-  const config = {
-    headers: { Authorization: `Bearer ${token}` },
-  };
+  // if (typeof window !== 'undefined') {
+  //   // Perform localStorage action
+  //   const token = localStorage.getItem('access_token');
+  // }
 
   // const { mutate } = useMutation({
   //   mutationFn: async () => {
@@ -83,6 +77,11 @@ const SignInPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const refreshExp = getNextMonth()
+
+    const token = localStorage.getItem('access_token');
+    const config = {
+      headers: { Authorization: `Bearer ${token}` },
+    };
 
     try {
       setIsLoading(true);
