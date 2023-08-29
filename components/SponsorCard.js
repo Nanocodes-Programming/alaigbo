@@ -2,9 +2,9 @@
 import { Image, Text } from '@mantine/core';
 import React from 'react';
 
-const SponsorCard = ({ src, text }) => {
+const SponsorCard = ({ src, text, url }) => {
   return (
-    <div className="flex flex-col items-center justify-center">
+    <div onClick={() => window.open(url, '_blank')} className="flex flex-col items-center justify-center cursor-pointer">
       <div className="rounded-full w-[200px] max-h-[200px]  overflow-hidden">
         <Image
           src={src}
