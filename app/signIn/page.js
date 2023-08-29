@@ -22,7 +22,13 @@ const SignInPage = () => {
   const router = useRouter();
   const { toast } = useToast();
   const { logIn } = useContext(AuthContext);
-  const token = localStorage.getItem('access_token');
+
+  if (typeof window !== 'undefined') {
+    // Perform localStorage action
+    const token = localStorage.getItem('access_token');
+  }
+  
+ 
 
   const config = {
     headers: { Authorization: `Bearer ${token}` },
