@@ -1,0 +1,1 @@
+export const API_URL = `https://alaigbo-api-f1eb5c729ad7.herokuapp.com`

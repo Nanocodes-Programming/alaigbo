@@ -8,6 +8,7 @@ import { Button as ButtonLucid } from '@/components/ui/button';
 import NavLinks from './NavLinks';
 
 import { AuthContext } from '@/lib/AuthContext';
+import useAuth from '@/hooks/useAuth';
 
 const navLinks = [
   {
@@ -41,6 +42,7 @@ const navLinks = [
 ];
 
 const Header = () => {
+  useAuth()
   let session;
   if (typeof window !== 'undefined' && window.localStorage) {
     session = window.localStorage.getItem('isLoggedIn');
