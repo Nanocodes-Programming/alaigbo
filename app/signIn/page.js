@@ -1,8 +1,10 @@
 'use client';
 import InputComponent from '@/UI/InputComponent';
+import PasswordInputComponent from '@/UI/PasswordInputComponent';
 import { Button } from '@/components/ui/button';
 
 import { useToast } from '@/components/ui/use-toast';
+import { API_URL } from '@/constants/api';
 import { AuthContext } from '@/lib/AuthContext';
 
 import { useMutation } from '@tanstack/react-query';
@@ -15,11 +17,12 @@ import { startTransition, useContext, useState } from 'react';
 const SignInPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false)
   const router = useRouter();
   const { toast } = useToast();
   const { logIn } = useContext(AuthContext);
 
-  const { isLoading, mutate } = useMutation({
+  const { mutate } = useMutation({
     mutationFn: async () => {
       try {
         if(email === '') {
@@ -65,26 +68,85 @@ const SignInPage = () => {
     },
   });
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      setIsLoading(true);
+      const data = await axios.post(`${API_URL}/api/v1/login/`, {
+        email,
+        password
+      });
+
+      logIn();
+      localStorage.setItem('email', email);
+      localStorage.setItem('access_token', data?.data?.access)
+      localStorage.setItem('refresh_token', data?.data?.refresh)
+      localStorage.setItem('user', data?.user)
+      localStorage.setItem('access_exp', data)
+      localStorage.setItem('refresh_exp', refreshExp)
+
+      setIsLoading(false);
+      router.push('/');
+      return toast({
+        title: '',
+        description: 'You have been logged in',
+      });
+    } catch (error) {
+      setIsLoading(false);
+      if (error?.response?.status === 401) {
+        toast({
+          title: ``,
+          description: 'Incorrect email or password',
+          variant: 'destructive',
+        });
+      } else if (error?.response?.status === 500) {
+        toast({
+          title: `Network error`,
+          description: 'Try again later',
+          variant: 'destructive',
+        });
+      } else {
+        toast({
+          title: `Network error`,
+          description: 'Try again later',
+          variant: 'destructive',
+        });
+      }
+      console.log(error);
+    }
+  };
+
   return (
     <div className="h-screen flex items-center justify-center flex-col">
-      <div className="sm:w-[50%]  gap-4 w-[95%] grid grid-cols-1">
+      <form onSubmit={handleSubmit} className="sm:w-[50%] gap-4 w-[95%] grid grid-cols-1">
         <InputComponent
           type="email"
           value={email}
           setValue={setEmail}
           label={'Your Email'}
+          required={true}
         />
-        <InputComponent
+        {/* <InputComponent
           type="password"
           value={password}
           setValue={setPassword}
           label={'Your Password'}
-        />
+        /> */}
+         <PasswordInputComponent
+            value={password}
+            setValue={setPassword}
+            label={'Password'}
+            type={'password'}
+            required={true}
+            placeholder={'Password'}
+          />
         <div className="flex justify-center">
           <Button
             disabled={isLoading}
             className="bg-[#DE5000] hover:bg-[#a4460f] transition duration-300"
-            onClick={() => mutate()}
+            // onClick={() => mutate()}
+            type="submit"
           >
             {!isLoading && <LogIn className="mr-3" />}{' '}
             {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}{' '}
@@ -100,7 +162,7 @@ const SignInPage = () => {
             Sign up
           </Link>
         </div>
-      </div>
+      </form>
     </div>
   );
   // return <SignIn />;

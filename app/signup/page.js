@@ -98,12 +98,13 @@ const Login = () => {
       if (checkPassword) {
         try {
           setIsLoading(true);
-          const { data } = await axios.post(`${API_URL}/api/v1/register/`, {
+          const data = await axios.post(`${API_URL}/api/v1/register/`, {
             email,
             password,
             phone: number
           });
-
+          console.log(data)
+          logIn();
           localStorage.setItem('email', email);
           localStorage.setItem('access_token', data?.data?.access)
           localStorage.setItem('refresh_token', data?.data?.refresh)
@@ -133,12 +134,12 @@ const Login = () => {
             });
           } else {
             toast({
-              title: ``,
+              title: `Network error`,
               description: 'Try again later',
               variant: 'destructive',
             });
           }
-          // console.log(error);
+          console.log(error);
         }
       } else {
         setIsLoading(false);
