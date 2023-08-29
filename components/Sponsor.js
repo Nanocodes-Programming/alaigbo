@@ -4,22 +4,27 @@ const images = [
   {
     src: '/nanocodes.png',
     text: 'Nanocodes Programming',
+    url: 'https://www.nanocodes.com.ng'
   },
   {
     src: '/olu.jpg',
     text: 'Voice of The East',
+    url: ''
   },
   {
     src: '/img1.jpg',
     text: 'Switch Dev',
+    url: ''
   },
   {
     src: '/img2.jpg',
     text: 'Ruoya Nigeria',
+    url: ''
   },
   {
     src: '/img3.jpg',
     text: 'Service Culture Academy',
+    url: ''
   },
 ];
 
@@ -37,8 +42,8 @@ const Sponsor = () => {
           </p>
         </div>
         <div className="grid  md:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-4 mt-[100px]">
-          {images.map(({ src, text }) => (
-            <SponsorCard key={src} src={src} text={text} />
+          {images.map(({ src, text, url }) => (
+            <SponsorCard key={src} src={src} text={text} url={url} />
           ))}
         </div>
       </div>
