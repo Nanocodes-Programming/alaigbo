@@ -417,7 +417,7 @@ const EventRegistration = () => {
               className=" bg-orange-500 w-[400px]"
               type="submit"
             >
-              Register
+              Book
             </Button>
           </div>
         </form>

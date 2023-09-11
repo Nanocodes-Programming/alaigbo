@@ -88,9 +88,9 @@ const Countdown = () => {
             scale: 1,
             transition: { duration: 0.3 },
           }}
-          href={'/register'}
+          href={'/booking'}
           className="bg-[#00AA00] inline-block rounded-md px-8 text-white py-3"
-          title="REGISTER"
+          title="Book Your Seat"
         />
       )}
     </>
