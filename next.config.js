@@ -2,10 +2,11 @@
 const nextConfig = {
   experimental: {
     appDir: true,
-    // serverComponentsExternalPackages: ['mongoose'],
+    serverComponentsExternalPackages: ['prisma'],
+    serverActions: true,
   },
   images: {
-    domains: ['lh3.googleusercontent.com'],
+    domains: ['lh3.googleusercontent.com', 'uploadthing.com', 'utfs.io'],
   },
   webpack(config) {
     config.experiments = {
