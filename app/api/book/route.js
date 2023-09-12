@@ -50,6 +50,7 @@ export async function POST(response) {
         location,
         participants,
         userId,
+        registered: true,
       },
       { upsert: true }
     );

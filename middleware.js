@@ -11,6 +11,7 @@ export default authMiddleware({
     '/event',
     '/contact',
     '/abstract',
+    '/api/webhook',
   ],
 });
 

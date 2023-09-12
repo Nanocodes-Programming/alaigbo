@@ -2,6 +2,7 @@
 import AuthProvider from '@/lib/AuthContext';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { SessionProvider } from 'next-auth/react';
+import { loadStripe } from '@stripe/stripe-js';
 
 const Provider = ({ children }) => {
   const queryClient = new QueryClient();

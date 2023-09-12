@@ -1,3 +1,5 @@
+'use client';
+
 import Button from '@/UI/Button';
 import EventNotification from '@/components/Events/EventNotification';
 import EventTimer from '@/components/Events/EventTimer';
@@ -10,11 +12,22 @@ import {
   CardFooter,
   CardHeader,
 } from '@/components/ui/card';
+import { Button as Btn } from '@/components/ui/button';
+import DonateFormModal from '@/components/form/DonateFormModal';
+import { useDonateModal } from '@/hooks/modal';
 
-const Event = async () => {
+const Event = () => {
+  const modal = useDonateModal();
   return (
-    <div className=" overflow-x-hidden">
+    <div className=" overflow-x-hidden relative">
       <EventNotification />
+      <Btn
+        onClick={modal.onOpen}
+        className="fixed right-2 sm:right-4 text-white bottom-16 cursor-pointer bg-gradient-to-tr rounded-sm from-purple-500 to-pink-500 p-2 animate-pulse duration-1000 transition"
+      >
+        Donate
+      </Btn>
+      <DonateFormModal />
       <EventTimer />
       <Speakers />
       <div className="h-screen bg-[#131313] relative flex justify-center items-center">

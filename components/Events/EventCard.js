@@ -13,8 +13,11 @@ import TextComponent from '../mantine/TextComponent';
 import { Button, buttonVariants } from '../ui/button';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
+import { booked } from '@/lib/actions/book.actions';
 
-const EventCard = ({}) => {
+const EventCard = async () => {
+  const registered = await booked();
+
   return (
     <div>
       <Card className=" flex justify-center flex-col !mx-auto bg-[#D9D9D9] rounded-md">
@@ -31,13 +34,24 @@ const EventCard = ({}) => {
             fw={'bold'}
           />
           <p className="text-center">
-            Status: <span className="font-semibold">Registered</span>{' '}
+            Status:{' '}
+            <span className="font-semibold">
+              {registered?.firstName ? 'Booked' : 'Not Booked'}
+            </span>{' '}
           </p>
           <p className="text-center">
-            Accommodation: <span className="font-semibold">Reserved</span>{' '}
+            Accommodation:{' '}
+            <span className="font-semibold">
+              {registered?.accommodation === 'Yes'
+                ? 'Reserved'
+                : 'Not Reserved'}
+            </span>{' '}
           </p>
           <p className="text-center">
-            Logistics: <span className="font-semibold">Booked</span>{' '}
+            Personnel:{' '}
+            <span className="font-semibold">
+              {registered?.participants ? registered?.participants : 'N/A'}
+            </span>{' '}
           </p>
         </CardContent>
         <CardFooter className="flex justify-center">

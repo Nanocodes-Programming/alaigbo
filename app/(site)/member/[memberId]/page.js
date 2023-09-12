@@ -1,16 +1,15 @@
 import EventCard from '@/components/Events/EventCard';
 import IdentityCard from '@/components/IdentityCard';
 import MemberSidebar from '@/components/MemberSidebar';
-import ProfileSidebar from '@/components/ProfileSidebar';
 import { fetchInvestor, fetchUserMember } from '@/lib/actions/user.actions';
 import { currentUser } from '@clerk/nextjs';
 import { format } from 'date-fns';
 import { redirect } from 'next/navigation';
-import React from 'react';
 
 const MemberPage = async () => {
   const { id } = await currentUser();
   const member = await fetchUserMember(id);
+
   const {
     imgUrl,
     lastName,

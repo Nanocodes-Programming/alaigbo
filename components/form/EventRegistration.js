@@ -1,6 +1,7 @@
 'use client';
-
+import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import { zodResolver } from '@hookform/resolvers/zod';
+
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -36,6 +37,7 @@ const EventRegistration = () => {
   const { user } = useUser();
   const { toast } = useToast();
   const router = useRouter();
+
   useEffect(() => {
     const getUser = async () => {
       const { data } = await axios.get('/api/fetchMember');
