@@ -1,5 +1,4 @@
 'use client';
-import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { Button } from '@/components/ui/button';
@@ -22,10 +21,7 @@ import { Input } from '@/components/ui/input';
 import { useForm } from 'react-hook-form';
 import { bookingValidation } from '@/lib/validations/user';
 import { Textarea } from '@/components/ui/textarea';
-import { X } from 'lucide-react';
-import { eventBooking, fetchUserMember } from '@/lib/actions/user.actions';
 import { useToast } from '@/components/ui/use-toast';
-import { ToastAction } from '@/components/ui/toast';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@clerk/nextjs';
 import { useEffect, useState } from 'react';
@@ -42,7 +38,7 @@ const EventRegistration = () => {
     const getUser = async () => {
       const { data } = await axios.get('/api/fetchMember');
       const isMember = data.isOnboarded;
-      console.log(isMember);
+
       setNumber(isMember?.number);
       if (!isMember) {
         router.push('/accountType');

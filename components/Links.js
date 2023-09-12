@@ -1,19 +1,9 @@
 'use client';
-import React, { useEffect, useState } from 'react';
 import NavLinks from './NavLinks';
-import { currentUser, useUser } from '@clerk/nextjs';
-import { fetchUserMember } from '@/lib/actions/user.actions';
+import { useUser } from '@clerk/nextjs';
 
 const Links = () => {
   const { user } = useUser();
-  const [userId, setUserId] = useState('');
-  const getUserId = async () => {
-    const isMember = await fetchUserMember(user?.id);
-    setUserId(isMember?.userId);
-  };
-  useEffect(() => {
-    getUserId();
-  }, []);
 
   const navLinks = [
     {
@@ -51,7 +41,7 @@ const Links = () => {
     },
     {
       title: 'PROFILE',
-      link: `/member/${userId}`,
+      link: `/member/${user?.id}`,
     },
   ];
   return (

@@ -12,7 +12,12 @@ const MemberSidebar = ({ imgUrl, department }) => {
       </TitleComponent>
       <div className="flex  justify-center ">
         <div className="overflow-hidden relative  rounded-full h-12 w-12 mr-4">
-          <Image src={imgUrl} fill className="object-cover" />
+          <Image
+            alt="profile-image"
+            src={imgUrl}
+            fill
+            className="object-cover"
+          />
         </div>
         <div>
           <TextComponent

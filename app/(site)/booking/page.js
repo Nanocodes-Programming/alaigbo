@@ -1,22 +1,17 @@
-import AccountProfile from '@/components/form/AccountProfile';
 import EventRegistration from '@/components/form/EventRegistration';
 import { fetchInvestor, fetchUserMember } from '@/lib/actions/user.actions';
 import { currentUser } from '@clerk/nextjs';
+
 import { redirect } from 'next/navigation';
-import React from 'react';
 
 const EventOnboard = async () => {
-  const { id, firstName, lastName, emailAddresses } = await currentUser();
-  const user = {
-    firstName,
-    lastName,
-    emailAddresses,
-  };
+  const { id } = await currentUser();
   const isMember = await fetchUserMember(id);
-  const isCompany = await fetchInvestor(id);
-  console.log(isCompany?.isOnboarded, isMember?.isOnboarded);
-  if (!isCompany?.isOnboarded && !isMember?.isOnboarded)
-    redirect('/accountType');
+  const isInvestor = await fetchInvestor(id);
+
+  if (!isMember?.isOnboarded && !isInvestor?.isOnboarded) {
+    return redirect('/accountType');
+  }
 
   return (
     <div className="min-h-screen py-[150px] w-[95%] md:w-[85%] mx-auto">

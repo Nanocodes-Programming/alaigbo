@@ -9,7 +9,7 @@ import {
 import Image from 'next/image';
 import TextComponent from './mantine/TextComponent';
 
-const IdentityCard = ({
+const IdentityCard = async ({
   memberId,
   imgUrl,
   lastName,
@@ -29,6 +29,7 @@ const IdentityCard = ({
           <div className="grid grid-cols-1 sm:grid-cols-2 place-items-center  space-x-3 space-y-3 w-full ">
             <div className="w-[200px] h-[200px] rounded-full  relative overflow-hidden">
               <Image
+                alt="profile-image"
                 src={imgUrl}
                 fill
                 priority

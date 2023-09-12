@@ -23,7 +23,7 @@ const Event = () => {
       <EventNotification />
       <Btn
         onClick={modal.onOpen}
-        className="fixed right-2 sm:right-4 text-white bottom-16 cursor-pointer bg-gradient-to-tr rounded-sm from-purple-500 to-pink-500 p-2 animate-pulse duration-1000 transition"
+        className="fixed right-2 z-30 sm:right-4 text-white bottom-16 cursor-pointer  rounded-sm  p-2 animate-pulse duration-1000 transition"
       >
         Donate
       </Btn>

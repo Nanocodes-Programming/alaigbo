@@ -267,7 +267,7 @@ const AccountProfile = () => {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <ScrollArea class={'h-[150px]'}>
+                      <ScrollArea className={'h-[150px]'}>
                         {states.map((state) => (
                           <SelectItem key={state.value} value={state.value}>
                             {state.label}
@@ -304,7 +304,7 @@ const AccountProfile = () => {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <ScrollArea class={'h-[300px]'}>
+                      <ScrollArea className={'h-[300px]'}>
                         {states
                           .find(
                             (state) => state.value === form.getValues('state')

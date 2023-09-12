@@ -22,7 +22,7 @@ const AccountType = () => {
 
   if (!mounted) return null;
   return (
-    <div className="h-screen flex items-center justify-center">
+    <div className="min-h-screen flex items-center justify-center">
       <Dialog open>
         <DialogContent className="space-y-3">
           <DialogHeader

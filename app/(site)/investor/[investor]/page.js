@@ -1,27 +1,21 @@
 import EventCard from '@/components/Events/EventCard';
-import IdentityCard from '@/components/IdentityCard';
 import MemberSidebar from '@/components/MemberSidebar';
-import ProfileSidebar from '@/components/ProfileSidebar';
-import { fetchInvestor, fetchUserMember } from '@/lib/actions/user.actions';
+import { fetchInvestor } from '@/lib/actions/user.actions';
 import { currentUser } from '@clerk/nextjs';
-import { format } from 'date-fns';
-import { redirect } from 'next/navigation';
-import React from 'react';
+import { redirect, useRouter } from 'next/navigation';
 
 const InvestorPage = async () => {
   const { id } = await currentUser();
+
   const investor = await fetchInvestor(id);
 
-  const isCompany = await fetchInvestor(id);
-  const date = format(dob, 'PPP');
-
-  if (!isCompany?.isOnboarded) redirect('/accountType');
+  if (!isMember || !investor) redirect('/accountType');
 
   return (
     <div className="min-h-[100vh] w-full sm:pb-0 pb-10 relative grid grid-cols-12 place-content-center  ">
-      <div className="hidden lg:!flex col-span-3">
+      {/* <div className="hidden lg:!flex col-span-3">
         <MemberSidebar imgUrl={member?.imgUrl} department={member?.group} />
-      </div>
+      </div> */}
 
       <div className=" lg:col-span-9 col-span-12">
         <div className="w-[90%] md:w-[85%] mx-auto mt-10 md:mt-28">
