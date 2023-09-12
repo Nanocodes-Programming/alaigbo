@@ -4,7 +4,7 @@ import Button from '../../UI/Button';
 import { motion } from 'framer-motion';
 
 const Countdown = () => {
-  const countDate = new Date('December 17, 2023 00:00:00').getTime();
+  const countDate = new Date('December 18, 2023 00:00:00').getTime();
   const now = new Date().getTime();
   const gap = countDate - now;
   const [days, setDays] = useState(0);
@@ -88,9 +88,9 @@ const Countdown = () => {
             scale: 1,
             transition: { duration: 0.3 },
           }}
-          href={'/register'}
+          href={'/booking'}
           className="bg-[#00AA00] inline-block rounded-md px-8 text-white py-3"
-          title="REGISTER"
+          title="Book Your Seat"
         />
       )}
     </>

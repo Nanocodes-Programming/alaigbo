@@ -12,8 +12,8 @@ const EventNotification = () => {
           transition={{ duration: 0.8, type: 'spring', stiffness: 100 }}
           className="bg-[#EE0000]  flex flex-col items-center md:self-start text-white relative p-4 mt-4"
         >
-          <span className="self-start">20th</span>
-          <h3 className="font-bold text-3xl">November</h3>
+          <span className="self-start">18th-19th</span>
+          <h3 className="font-bold text-3xl">December</h3>
           <p className="self-end">2023</p>
           <div className="absolute bg-[#EE0000] w-[30px] h-[30px] -bottom-2 translate-x-[-50%] rotate-45 left-1/2" />
         </motion.div>
@@ -36,13 +36,13 @@ const EventNotification = () => {
           this, it will surely be a November to remember forever.
         </motion.p>
         <Button
-          href="/register"
+          href="/booking"
           initial={{ scale: 0.9 }}
           whileHover={{
             scale: 1,
             transition: { duration: 0.3 },
           }}
-          title="Register"
+          title="Book Your Seat"
           className={'px-2'}
         />
       </div>

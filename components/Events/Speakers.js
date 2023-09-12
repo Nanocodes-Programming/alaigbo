@@ -26,7 +26,7 @@ const speakers = [
 const Speakers = () => {
   return (
     <div className="bg-[#F6FBD6] min-h-[700px] py-[100px]">
-      <h1 className="text-[#00AA00] font-bold text-4xl text-center mb-8">
+      <h1 className="text-[#00AA00] font-bold text-3xl sm:text-4xl text-center mb-8">
         Meet Our Speakers
       </h1>
       <div className="grid items-center place-content-center lg:grid-cols-4 md:grid-cols-2 gap-4 grid-cols-1 justify-center mx-auto w-[95%] md:w-[80%]">

@@ -10,6 +10,8 @@ import {
   FaYoutube,
   FaInstagram,
 } from 'react-icons/fa';
+import { usePathname } from 'next/navigation';
+import { cn } from '@/lib/utils';
 
 const socialIcon = [
   {
@@ -29,9 +31,15 @@ const socialIcon = [
 ];
 const MotionLink = motion(Link);
 const Footer = () => {
+  const pathname = usePathname();
   const year = new Date().getFullYear();
   return (
-    <motion.footer className="bg-[#0D0C0DE6] px-4 pb-6 ">
+    <motion.footer
+      className={cn(
+        'bg-[#0D0C0DE6] px-4 pb-6 ',
+        pathname === '/member/*' ? 'hidden' : 'block'
+      )}
+    >
       <motion.div
         initial={{ y: 50, opacity: 0 }}
         whileInView={{ y: 0, opacity: 1 }}
@@ -50,7 +58,7 @@ const Footer = () => {
                 </p>
                 <TextInput
                   placeholder="Email Address"
-                  className="flex-1"
+                  className="flex-1 "
                   rightSection={
                     <div className="h-full w-[150px] text-white text-sm flex items-center justify-center p-2 bg-[#00AA00] rounded-tr-sm rounded-br-sm cursor-pointer">
                       SUBSCRIBE
